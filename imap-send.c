@@ -1507,9 +1507,10 @@ int cmd_main(int argc, const char **argv)
 	};
 	struct strbuf all_msgs = STRBUF_INIT;
 	int total;
+	int nongit_ok;
 	int ret;
 
-	setup_git_directory_gently(NULL);
+	setup_git_directory_gently(&nongit_ok);
 	git_config(git_imap_config, &server);
 
 	argc = parse_options(argc, (const char **)argv, "", imap_send_options, imap_send_usage, 0);
