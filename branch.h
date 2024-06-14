@@ -15,6 +15,41 @@ enum branch_track {
 	BRANCH_TRACK_SIMPLE,
 };
 
+struct branch {
+	struct object object;
+
+	struct hashmap_entry ent;
+
+	/* The short name of the branch. */
+	const char *name;
+
+	/* The full path for the branch ref. */
+	const char *refname;
+
+	/* The name of the remote listed in the configuration. */
+	const char *remote_name;
+
+	const char *pushremote_name;
+
+	/* An array of the "merge" lines in the configuration. */
+	const char **merge_name;
+
+	/**
+	 * An array of the struct refspecs used for the merge lines. That is,
+	 * merge[i]->dst is a local tracking ref which should be merged into
+	 * this branch by default.
+	 */
+	struct refspec_item **merge;
+
+	/* The number of merge configurations */
+	int merge_nr;
+
+	int merge_alloc;
+
+	const char *push_tracking_ref;
+};
+
+
 extern enum branch_track git_branch_track;
 
 /* Functions for acting on the information about branches. */

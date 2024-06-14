@@ -4,6 +4,7 @@
 #include "hash-ll.h"
 #include "hashmap.h"
 #include "refspec.h"
+#include "branch.h"
 
 struct option;
 struct transport_ls_refs_options;
@@ -295,41 +296,6 @@ struct ref *get_remote_ref(const struct ref *remote_refs, const char *name);
  */
 int remote_find_tracking(struct remote *remote, struct refspec_item *refspec);
 
-/**
- * struct branch holds the configuration for a branch. It can be looked up with
- * branch_get(name) for "refs/heads/{name}", or with branch_get(NULL) for HEAD.
- */
-struct branch {
-	struct hashmap_entry ent;
-
-	/* The short name of the branch. */
-	const char *name;
-
-	/* The full path for the branch ref. */
-	const char *refname;
-
-	/* The name of the remote listed in the configuration. */
-	const char *remote_name;
-
-	const char *pushremote_name;
-
-	/* An array of the "merge" lines in the configuration. */
-	const char **merge_name;
-
-	/**
-	 * An array of the struct refspecs used for the merge lines. That is,
-	 * merge[i]->dst is a local tracking ref which should be merged into this
-	 * branch by default.
-	 */
-	struct refspec_item **merge;
-
-	/* The number of merge configurations */
-	int merge_nr;
-
-	int merge_alloc;
-
-	const char *push_tracking_ref;
-};
 
 struct branch *branch_get(const char *name);
 const char *remote_for_branch(struct branch *branch, int *explicit);
